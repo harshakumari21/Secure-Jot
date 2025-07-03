@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Autowired
     private UserService userService;
 
@@ -29,18 +33,22 @@ public class UserController {
     private UserRepository userRepository;
 
     @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody User user){   // user: the data provided by client(postman ki body: username password)
+    public ResponseEntity<?> updateUser(@RequestBody User user) { // user: the data provided by client(postman ki body:
+                                                                  // username password)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        User userInDB = userService.findByUserName(userName);   //userInDb: pura dataset from user repo by searching username
-        userInDB.setUserName(user.getUserName());
-        userInDB.setPassword(user.getPassword());
-        userService.saveNewUser(userInDB);
+        User userInDB = userService.findByUserName(userName); // userInDb: pura dataset from user repo by searching
+                                                              // username
+        if (userName != null) {
+            userInDB.setUserName(user.getUserName());
+            userInDB.setPassword(passwordEncoder.encode(user.getPassword()));
+            userService.saveUser(userInDB);
+        }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteUserById(){
+    public ResponseEntity<?> deleteUserById() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         userRepository.deleteByUserName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

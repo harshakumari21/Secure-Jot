@@ -13,18 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "users")
-//@Getter
-//@Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@ToString
-//@EqualsAndHashCode
-//@Builder
+// @Getter
+// @Setter
+// @NoArgsConstructor
+// @AllArgsConstructor
+// @ToString
+// @EqualsAndHashCode
+// @Builder
 @Data
 public class User {
 
     @Id
-    private String id;
+    private ObjectId id;
     @Indexed(unique = true)
     @NonNull
     private String userName;

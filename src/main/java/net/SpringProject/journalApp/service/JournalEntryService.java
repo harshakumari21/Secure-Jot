@@ -25,9 +25,10 @@ public class JournalEntryService {
     private UserService userService;
 
     @Transactional
-    public void saveEntry(JournalEntry journalEntry, String userName){
-        //methods such as save delete findbyid are provided us by jpa to achieve orm. we can use these methods by orm tool or pp in our case its hibernate
-        try{
+    public void saveEntry(JournalEntry journalEntry, String userName) {
+        // methods such as save delete findbyid are provided us by jpa to achieve orm.
+        // we can use these methods by orm tool or pp in our case its hibernate
+        try {
             User user = userService.findByUserName(userName);
             journalEntry.setDate(LocalDateTime.now());
             JournalEntry saved = journalEntryRepository.save(journalEntry);
@@ -40,37 +41,33 @@ public class JournalEntryService {
 
     }
 
-    public void saveEntry(JournalEntry journalEntry){
+    public void saveEntry(JournalEntry journalEntry) {
         journalEntryRepository.save(journalEntry);
     }
 
-    public List<JournalEntry> getAll(){
+    public List<JournalEntry> getAll() {
 
         return journalEntryRepository.findAll();
     }
 
-    public Optional<JournalEntry> findById(ObjectId id){
+    public Optional<JournalEntry> findById(ObjectId id) {
         return journalEntryRepository.findById(id);
     }
 
     @Transactional
-    public boolean deleteById(ObjectId id, String userName){
-        try{
+    public boolean deleteById(ObjectId id, String userName) {
+        boolean removed = false;
+        try {
             User user = userService.findByUserName(userName);
-            boolean removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-            if(removed){
+            removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            if (removed) {
                 userService.saveNewUser(user);
                 journalEntryRepository.deleteById(id);
             }
-            return removed;
         } catch (Exception e) {
             System.out.println(e);
             throw new RuntimeException("An error occurred while deleting the entry.", e);
         }
-
-
+        return removed;// 3rd Change -> returned removed correctly
     }
-
-
 }
-

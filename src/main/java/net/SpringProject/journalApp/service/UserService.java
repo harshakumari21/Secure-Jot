@@ -20,35 +20,37 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();   //passwordEncoder will inherit all func of bcrypt
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // passwordEncoder will inherit
+                                                                                        // all func of bcrypt
 
-    public void saveNewUser(User user){
+    public void saveNewUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList("USER"));
         userRepository.save(user);
-              //methods suchb as save delete findbyid are provided us by jpaˀ to achieve orm. we can use these methods by orm tool or pp in our case its hibernate
+        // methods suchb as save delete findbyid are provided us by jpaˀ to achieve orm.
+        // we can use these methods by orm tool or pp in our case its hibernate
     }
 
-    public void saveUser(User user){
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 
-    public List<User> getAll(){
+    public List<User> getAll() {
 
         return userRepository.findAll();
     }
 
-    public Optional<User> findById(ObjectId id){
+    public Optional<User> findById(ObjectId id) {
 
         return userRepository.findById(id);
     }
 
-    public void deleteById(ObjectId id){
+    public void deleteById(ObjectId id) {
 
         userRepository.deleteById(id);
     }
 
-    public User findByUserName(String userName){
+    public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
 }
