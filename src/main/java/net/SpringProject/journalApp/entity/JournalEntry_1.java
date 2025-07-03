@@ -1,13 +1,11 @@
 package net.SpringProject.journalApp.entity;
 
-import com.mongodb.lang.NonNull;
 import jakarta.persistence.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="journal_entries")
+@Table(name = "journal_entries")
 public class JournalEntry_1 {
 
     @Id

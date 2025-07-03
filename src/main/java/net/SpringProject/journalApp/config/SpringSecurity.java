@@ -1,6 +1,5 @@
 package net.SpringProject.journalApp.config;
 
-import net.SpringProject.journalApp.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,12 +18,12 @@ public class SpringSecurity {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http                                                              //it returns our api endpoints with certain security checks
+        return http // it returns our api endpoints with certain security checks
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/journal/**","/user/**").authenticated() //add "/user/**" after journal api
+                        .requestMatchers("/journal/**", "/user/**").authenticated() // add "/user/**" after journal api
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().permitAll() //permit all ki jagah authenticated
+                        .anyRequest().permitAll() // permit all ki jagah authenticated
                 )
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
@@ -41,4 +40,4 @@ public class SpringSecurity {
         return new BCryptPasswordEncoder();
     }
 }
-//User -> spring security
+// User -> spring security

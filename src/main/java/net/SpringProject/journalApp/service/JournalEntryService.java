@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.SpringProject.journalApp.entity.JournalEntry;
 import net.SpringProject.journalApp.entity.User;
 import net.SpringProject.journalApp.repository.JournalEntryRepository;
-import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
