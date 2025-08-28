@@ -1,1 +1,1 @@
-# Journal-AppMade by Priyansh Awasthi and stolen by Harsha Kumari 
+# Journal-App
